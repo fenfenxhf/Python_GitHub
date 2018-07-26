@@ -1,0 +1,42 @@
+#coding='utf-8'
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.header import Header
+
+mail_host = 'smtp.163.com'
+mail_user = 'xyhzfyyy17'
+mail_pass = 'xhf218059'
+
+sender = 'xyhzfyyy17@163.com'
+receives = ['1197147380@qq.com']
+
+message = MIMEMultipart()
+message.attach(MIMEText('email test....','plain','utf-8'))
+message['From'] = 'test@163.com'
+message['To'] = '1197147380@qq.com'
+
+subject = 'python test'
+message['Subject'] = Header(subject)
+
+
+att1 = MIMEText(open('test.txt').read(),'text','utf-8')
+att1['Content-Type'] = 'application/octet-stream'
+att1['Content-Disposition'] = 'attachment;filename=test.txt'
+message.attach(att1)
+
+#try:
+smtpObj = smtplib.SMTP()
+smtpObj.connect(mail_host,25)
+smtpObj.login(mail_user,mail_pass)
+smtpObj.sendmail(sender,receives,message.as_string())
+print('ok')
+
+#except smtplib.SMTPException:
+    #print('no')
+
+
+
+
+
