@@ -1,0 +1,311 @@
+#搭建自己的博客（基于CentOS7的Python2.7）
+
+注：CentOS连网设置（网址）：https://jingyan.baidu.com/article/19192ad8f7c320e53e570728.html
+                                                               https://blog.csdn.net/LinHenk/article/details/78473890
+
+
+
+1) 安装Web框架-Django
+Windows版本安装见网址：https://docs.djangoproject.com/en/dev/howto/windows/
+Linux版本安装：1.安装pip:	              1 >wget https://bootstrap.pypa.io/get-pip.py
+                                                                  2 >python get-pip.py
+																  
+							    2.安装Django：	  1 >pip install Django     #目前只在python2.7中导入成功；pyth3.7未成功，而且安装时候经常出现timeout，多安装几次就好了
+
+							 
+2) 安装tree命令（方便后续查看文件目录树）
+1.wget ftp://mama.indstate.edu/linux/tree/tree-1.7.0.tgz
+2.tar -zxvf tree-1.7.0.tgz
+3.cd tree-1.7.0/
+4.make install               #DONE!    进入不同的目录输入tree试试吧！
+
+
+3) 在Django中创建项目
+1.cd 到你想保存项目的文件夹,如test
+2.新建项目：django-admin startproject Hello   #新版django使用的是django-admin,老版使用django-admin.py；其中Hello是新建的项目文件夹名称，是项目的容器，可自行命名
+3.cd Hello/                    #细心的你会发现Hello目录下还有Hello目录，以下以父子目录区分，增强可读性
+4.tree    #将看到如下目录树
+├── Hello                                 #（子Hello）
+│   ├── __init__.py                # 一个空文件，告诉 Python 该目录是一个 Python 包
+│   ├── settings.py                 #该 Django 项目的设置/配置
+│   ├── urls.py                       #该 Django 项目的 URL 声明; 一份由 Django 驱动的网站"目录"
+│   └── wsgi.py                     # 一个 WSGI 兼容的 Web 服务器的入口，以便运行你的项目
+└── manage.py                      #一个实用的命令行工具，可让你以各种方式与该 Django 项目进行交互
+5.运行开发服务器： python manage.py runserver 0.0.0.0:8000   #0.0.0.0 让其它电脑可连接到开发服务器，8000 为端口号。如果不说明，那么端口号默认为 8000
+注：因为要用命令manage.py所以不能在子Hello目录下，得在父Hello目录下输入
+
+6.linux中的浏览器中打开链接（http://127.0.0.1:8000/或http://localhost:8000/），就可以看到Django的“It worked！”页面
+
+#到目前为止没有任何应用，以下4) &5)做了一个小小的应用
+
+
+4) 尝试在网页中显示"Hello world!"（Hello world的应用）——方法1
+1.在Hello（子）文件夹下新建文件view.py，其中代码如下：
+
+from django.http import HttpResponse
+def hello(request):
+    return HttpResponse("Hello world ! ")
+	
+2.绑定 URL 与视图函数。打开 urls.py 文件，删除原来代码，将以下代码复制粘贴到 urls.py 文件中：
+
+from django.conf.urls import url
+from . import view                                  #其中view.py要和urls.py在同一个文件夹下，这样才能正确导入
+urlpatterns = [url(r'^$', view.hello),]
+
+3.运行开发服务器： python manage.py runserver 0.0.0.0:8000
+4.linux中的浏览器中打开链接（http://127.0.0.1:8000/或http://localhost:8000/），就可以看到Django的“Hello world!”页面
+
+5) 尝试在网页中显示"Hello world!"（Hello world的应用）——方法2
+1.在Hello（父）文件夹下创建一个博客应用：python manage.py startapp blog        #tree之后看到的目录树如下：
+├── blog
+│   ├── admin.py
+│   ├── admin.pyc
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── __init__.pyc
+│   ├── migrations
+│   │   ├── __init__.py
+│   │   └── __init__.pyc
+│   ├── models.py
+│   ├── models.pyc
+│   ├── tests.py
+│   ├── views.py
+│   └── views.pyc
+├── db.sqlite3
+├── Hello
+│   ├── __init__.py
+│   ├── __init__.pyc
+│   ├── settings.py
+│   ├── settings.pyc
+│   ├── urls.py
+│   ├── urls.pyc
+│   ├── wsgi.py
+│   └── wsgi.pyc
+└── manage.py
+2.cd blog/
+3.vi view.py       #代码如下：
+
+from django.http import HttpResponse
+def hello(request):
+        return HttpResponse("Hello world ! ")
+		
+4.cd Hello/            （子）
+5.vi settings.py 
+#为了让Django知道这个新的应用是项目的一部分，需要编辑settings.py（可以将其理解为配置文件）。使用编辑器打开这个文件，
+#找到位于底部的INSTALLED_APPS这个元组。将应用名称（blog）添加到元组的末尾，如下所示：
+INSTALLED_APPS = (
+...
+'blog',                                   #虽然结尾的逗号不是必需的，但如果今后向该元组中添加其他项，就无须添加逗号
+)
+6.vi urls.py        #代码如下：
+
+import sys
+from django.conf.urls import url
+import blog.views
+sys.path.append(r'/home/ff/py.test/test/hello_test/blog')                         #可以使用pwd命令查看并复制粘贴blog的路径
+urlpatterns = [url(r'^$',blog.views.hello)]
+
+7.运行开发服务器： python manage.py runserver 0.0.0.0:8000
+8.linux中的浏览器中打开链接（http://127.0.0.1:8000/或http://localhost:8000/），就可以看到Django的“Hello world!”页面
+
+注：linux下python如何在不同目录下导入模块的实现方法（网址）：https://m.jb51.net/article/126941.htm
+
+注：如果你从Hello world的应用往下搭建模型，请将urls.py  &  views.py的代码回复如初!!!
+		 如果不记得回复的代码，请自行再创建一个blog1应用：python manage.py startapp blog1      并将blog1添加到settings.py的INSTALLED_APPS 的元组中
+
+6) 搭建模型，博客需要博文、博文分类、标签
+1.cd blog/
+2.vi models.py           #代码如下：
+
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+ 
+from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
+# Create your models here.
+ 
+#@python_2_unicode_compatible		#如果要求python2支持utf-8则需要加上此句
+class Category(models.Model):
+	name = models.CharField(u'名称', max_length = 20)
+	def __str__(self):
+		return self.name;
+ 
+#@python_2_unicode_compatible
+class Tag(models.Model):
+	name = models.CharField(u'名称', max_length = 20)
+	def __str__(self):
+		return self.name;
+ 
+#@python_2_unicode_compatible
+class Article(models.Model):
+	title = models.CharField(u'标题',max_length = 150)
+	body = models.TextField(u'正文')
+	date = models.DateTimeField(u'发布时间')
+	category = models.ForeignKey(Category, verbose_name=u'分类')
+	tags = models.ManyToManyField(Tag, verbose_name = u'标签', blank=True)
+	# models.ForeignKey表示一个Article有一个Category
+	# models.ManyToManyField表示一个Article有多个Tag，blank=True表示可以为空
+ 
+	def __str__(self):
+		return self.title
+	
+	
+7) 搭建完了模型需要向数据库注册，这里我们使用Python自带的SQLite
+1.先创建一个migration：python manage.py makemigrations blog               #控制台显示如下，并创建一个名为0001_initial.py的python文件
+blog/migrations/0001_initial.py
+    - Create model Article
+    - Create model Category
+    - Create model Tag
+    - Add field category to article
+    - Add field tags to article
+2.写入数据库： python manage.py sqlmigrate blog 0001
+3.最后应用migration：python manage.py migrate                     #出现很多的OK
+
+
+8) 我们需要一个管理员来管理网站内容： python manage.py createsuperuser
+Username (leave blank to use 'ff'): admin
+Email address: xyhzfyyy17@163.com
+Password: 
+Password (again): 
+Superuser created successfully.
+
+注：需要争取设置admin：打开settings.py > 最下方的INSTALLED_APPS元组 > 在“django.contrib.admin”这一行取消#，也即取消注释，启用admin
+
+
+9) 运行开发服务器： python manage.py runserver 0.0.0.0:8000
+linux中的浏览器中打开链接（http://127.0.0.1:8000/admin或http://localhost:8000/admin），就可以看到Django的管理页面，输入密码登录即可。
+
+
+10) 惊讶！没有看到自己创建的模型！因为没有设置admin.py                #代码如下：
+
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.contrib import admin
+
+# Register your models here.
+import sys
+from blog.models import Article,Category,Tag
+
+sys.path.append(r'/home/ff/BLOG/Hello_copy/blog')
+
+class ArticlePostAdmin(admin.ModelAdmin):
+        list_display = ('title','date','category')
+
+admin.site.register(Article,ArticlePostAdmin)
+admin.site.register(Category)
+admin.site.register(Tag)
+
+保存退出admin.py    后刷新http://127.0.0.1:8000/admin或http://localhost:8000/admin
+
+至此。我们已经完成了一个简单的博客后台
+
+
+11) URL、视图、模板
+1.先修改工程下的urls.py          #代码如下：
+
+from django.conf.urls import url,include
+from django.contrib import admin
+ 
+urlpatterns = [
+	#include函数：包含 /blog/urls.py 文件的urlpatterns
+	url(r'^$',include('blog.urls')),		#直接跳转至博客目录
+	url(r'^blog/',include('blog.urls')),
+    url(r'^admin/', admin.site.urls),
+]
+
+2.前往blog目录下新建urls.py          #代码如下：
+
+from django.conf.urls import url
+ 
+from . import views
+ 
+urlpatterns = [
+	url(r'^$',views.index,name='index'),	#/或/blog时调用views.index函数，加载主页
+	url(r'^(?P<article_id>[0-9]+)/',views.article,name='article'),	#/blog/数字：调用views.article函数，加载博文
+	url(r'^cat=(?P<category_id>[0-9]+)',views.category,name = 'category')	#/blog/cat=数字:调用views.category
+]
+
+3.现在我们重写views.py文件实现2.中提到的函数               #代码如下：
+
+from django.core.urlresolvers import reverse
+from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.template import loader
+from .models import Article,Category,Tag
+ 
+# Create your views here.
+ 
+def index(request):
+	latest_articles_list = Article.objects.order_by('-date')	#将文章按照时间顺序生成列表
+	category_list = Category.objects.order_by('-name')	#将分类按照名称顺序生成列表
+	template = loader.get_template('blogs/index.html')	#获取模板html文件，该文件将在之后编写
+	context = {
+		'latest_articles_list' : latest_articles_list,
+		'category_list' : category_list,
+	}	#传给模板html的后台数据
+	return render(request,'blogs/index.html',context)
+ 
+def article(request,article_id):
+	try:
+		article = Article.objects.get(pk=article_id)	#按编号查询文章
+	except Article.DoesNotExist:		#如果找不到则抛出异常处理
+		raise Http404("Article does not exist")
+	return render(request, 'blogs/article.html', {'article': article})
+ 
+def category(request,category_id):
+	cur_cat = Category.objects.get(pk = category_id)
+	articles = Article.objects.filter(category = cur_cat)	#找到一个或多个该分类下的文章，因为可能是多个文章所以应该用filter函数
+	return render(request, 'blogs/category.html', {'articles': articles})
+
+4.在/blog下创建一个templates文件夹，在templates文件夹下再建一个blogs文件夹用于存放模板html文件
+5.cd templates/blogs/
+6.vi index.html             #代码如下：
+
+{% if latest_articles_list %}
+	<h1>最近博文</h1>
+	<ul>
+	{% for article in latest_articles_list %}
+		<li><a href="/blog/{{article.id}}/">{{article.title}}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}	
+	<p>No articles are avaliable</p>
+{% endif %}
+{% if category_list %}
+	<h1>博文分类</h1>
+	<ul>
+		{% for category in category_list %}
+		<li><a href="/blog/cat={{category.id}}/">{{category.name}}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+7.vi category.html      #代码如下：
+
+{% if articles %}
+	<ul>
+	{% for article in articles %}
+		<li><a href="/blog/{{article.id}}/">{{article.title}}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}	
+	<p>No articles are avaliable</p>
+{% endif %}
+
+8.vi article.html           #代码如下：
+
+<h1>{{article.title}}</h1>
+<h2>{{article.date}}</h2>
+<p>{{article.body}}</p>
+<p>{{article.category.name}}</p>
+
+9.运行开发服务器： python manage.py runserver 0.0.0.0:8000
+linux中的浏览器中打开链接（http://127.0.0.1:8000/或http://localhost:8000/）
+
+至此，我们已经完成了一个简单的博客，但是还有很多美化的内容将在以下添加。
+
+
+
+
+
