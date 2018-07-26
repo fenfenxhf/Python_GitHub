@@ -1,0 +1,27 @@
+#在Centos7上安装python3.7.0（使用源码方式安装）
+
+1) 安装依赖包
+因为使用源码方式在CentOS7系统中安装Python3.7，所以必须先安装GCC编译器和make编译工具，这些工具包含在了‘Development tools’组件中，所以直接安装组件：
+yum groupinstall 'Development tools'   #切换到root模式。方法如下：1.直接输入su root  2.输入密码
+
+因为Python3.7源文件使用zlib格式打包，所以需要安装zlib软件包；Python3.7编译安装需要使用zlib头文件和链接库，所以需要安装zlib头文件和链接库：
+yum -y install zlib zlib-devel
+
+Python3有个内置模块ctypes,是Python3的外部函数库，需要使用系统的外部函数库（libffi）的头文件和链接库：
+yum -y install libffi-devel
+
+2) 运行如下命令配置、编译、安装Python3.7
+1.输入：wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tar.xz
+2.解压（两步）：1 >xz -d Python-3.7.0.tar.xz
+							   2 >tar -xvf Python-3.7.0.tar
+3.进入目录：cd Python-3.7.0
+4.配置安装目录：./configure  --prefix=/usr/python 
+5.编译（两步）：make   #会比较慢，耐心等待
+                                make install
+
+3) 建立软连接指向到当前系统默认python命令的bin目录
+ln -s /usr/python/bin/python3 /usr/bin/python3
+
+DONE!
+输入python3试试看吧								
+
