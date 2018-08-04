@@ -1,0 +1,43 @@
+"""" ######2-1#####
+from numpy import *  #numpy科学计算包
+import operator   #operator运算符模块
+
+#创建数据集以及每个数据对应标签
+def creatDataSet():
+    global group
+    global labels
+    group = array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])
+    labels = ['A','A','B','B']
+    return group,labels
+
+#实现k-近邻算法
+def classify0(inx,dataSet,labels,k): #inx为要分类的坐标如[0,0.2]，dataSet为array，labels为标签，k为前k个最相近的
+    #计算距离
+    dataSetSize = dataSet.shape[0] #0表示行数，1表示列数
+    diffMat = tile(inx,(dataSetSize,1))-dataSet #tile将inx沿着y方向复制dataSetSize次，沿x方向复制1次（相当于不变）
+    sqDiffMat = diffMat ** 2
+    sqDistances = sqDiffMat.sum(axis=1) #使用0值表示沿着每一列或行标签\索引值向下执行方法,使用1值表示沿着每一行或者列标签横向执行对应的方法
+    distances = sqDistances ** 0.5
+
+    sortedDistIndicies = distances.argsort() #将distances从小到大排列并返回索引的下标，并非返回元素本身
+    classCount = {}
+    #确定前k个点所在类别的出现频率
+    for i in range(k):
+        voteILabel = labels[sortedDistIndicies[i]] #获得字典classCount的key，从labels中获得
+        classCount[voteILabel] = classCount.get(voteILabel,0) + 1 #给key赋值，classCount.get(voteILabel,0)就是如果字典中有voteILabel，则返回对应的value,没有则返回0
+
+    #将前k个点所在类别的出现频率按照从大到小排序
+    sortedClassCount = sorted(classCount.items(),key=operator.itemgetter(1),reverse=True)
+    return sortedClassCount
+
+group,labels = creatDataSet()
+kNN = classify0([0,0.2],group,labels,3)
+print(kNN[0][0])
+"""
+
+
+
+
+
+
+
