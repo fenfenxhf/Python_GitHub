@@ -24,6 +24,39 @@ array([3,0,2,1,4,5]) #将array从小到大排序，并返回索引的下标（�
 
 matplotlib中.add_subplot(111) #matplotlib制作图，111三个参数，第一个是子图总行数，第二个是子图总列数，第三个是子图位置
 matplotlib中.scatter（x,y,s=1,c="g",marker="o",linewidths=0）#s:散列点的大小,c:散列点的颜色，marker：形状，linewidths：边框宽度
+matplotlib中引入中文字体：
+>>> from pylab import *
+>>> mpl.rcParams['font.sans-serif'] = ['SimHei']
 
 from os import listdir  #listdir可以列出给定目录的文件名
+
+python2中：from math import log 
+python3中：from cmath import log
+
+复数的取实部、虚部、模
+>>> a = 4+3j
+>>> a.real
+4
+>>> a.imag
+3
+>>> a.abs  #取模
+5
+
+list.extend()  &   list.append()
+>>> a = [1,2,3]
+>>> b = [4,5,6]
+>>> a.append(b)
+>>> a
+[1,2,3,[4,5,6]]
+>>> a = [1,2,3]
+>>> a.extend(b)
+>>> a
+[1,2,3,4,5,6]
+
+
+>>> for i in range(3): #对于这里的i是从0开始的三个数
+>>>    print(i)
+0
+1
+2
 
