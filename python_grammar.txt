@@ -68,3 +68,35 @@ list.extend()  &   list.append()
 >>> pickle.dump(Tree，fw #将Tree序列化至fw中,fw = open(filename,'wb')
 >>> pickle.load(fr) #读取文件，fr = open(filename,'rb')
 
+set()函数：
+>>> a = set(['quit','quit','dog','stupid'])
+>>> print(a)
+{'dog', 'stupid', 'quit'}   #set类型
+>>> print(list(a))
+['stupid', 'quit', 'dog']
+
+列表也可以求和
+>>> a = [0,9,8,1]
+>>> print(sum(a))
+18
+
+numpy中定义零矩阵
+>>> from numpy import *
+>>> a = zeros([2,3])   #不是zeros(2,3) 这样会报错，而列表就相当于一个参数
+[[0. 0. 0.]
+ [0. 0. 0.]]
+>>> set1 = set([])  或者set1 = set() #定义一个空集
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
