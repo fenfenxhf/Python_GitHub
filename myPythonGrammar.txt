@@ -1,0 +1,122 @@
+numpy.tile()函数：就是把数组沿着各个方向复制 #numpy是科学计算包
+>>> b = np.array([[1, 2], [3, 4]])
+>>> np.tile(b, 2) #沿X轴复制2倍
+array([[1, 2, 1, 2],
+       [3, 4, 3, 4]])
+>>> np.tile(b, (2, 1))#沿X轴复制1倍（相当于没有复制），再沿Y轴复制2倍
+array([[1, 2],
+       [3, 4],
+       [1, 2],
+       [3, 4]])
+       
+numpy.argsort()函数：
+>>> import numpy as np
+>>> x = np.array([1,4,3,-1,6,9])
+>>> x.argsort()
+array([3,0,2,1,4,5]) #将array从小到大排序，并返回索引的下标（下标从0开始），如-1是最小值，对应下标为3
+
+.sum(axis=1)  # .sum(axis=0)
+使用0值表示沿着每一列或行标签\索引值向下执行方法
+使用1值表示沿着每一行或者列标签横向执行对应的方法
+
+字典中.get()函数：
+基本语法：D[key] = D.get(key[,default=None])#D中若有key则返回key对应的值，若没有则返回默认值None，并添加此keyplot
+
+matplotlib中.add_subplot(111) #matplotlib制作图，111三个参数，第一个是子图总行数，第二个是子图总列数，第三个是子图位置
+matplotlib中.scatter（x,y,s=1,c="g",marker="o",linewidths=0）#s:散列点的大小,c:散列点的颜色，marker：形状，linewidths：边框宽度
+matplotlib中引入中文字体：
+>>> from pylab import *
+>>> mpl.rcParams['font.sans-serif'] = ['SimHei']
+
+from os import listdir  #listdir可以列出给定目录的文件名
+
+python2中：from math import log 
+python3中：from cmath import log
+
+复数的取实部、虚部、模
+>>> a = 4+3j
+>>> a.real
+4
+>>> a.imag
+3
+>>> a.abs  #取模
+5
+
+list.extend()  &   list.append()
+>>> a = [1,2,3]
+>>> b = [4,5,6]
+>>> a.append(b)
+>>> a
+[1,2,3,[4,5,6]]
+>>> a = [1,2,3]
+>>> a.extend(b)
+>>> a
+[1,2,3,4,5,6]
+
+
+>>> for i in range(3): #对于这里的i是从0开始的三个数
+>>>    print(i)
+0
+1
+2
+
+>>> a = [3,4]
+>>> print(a.index(3))  #返回下标，字典无索引
+0
+
+>>> import pickle #模块pickle序列化对象，可以在磁盘上保存对象，并且在需要时候读取
+>>> pickle.dump(Tree，fw #将Tree序列化至fw中,fw = open(filename,'wb')
+>>> pickle.load(fr) #读取文件，fr = open(filename,'rb')
+
+set()函数：
+>>> a = set(['quit','quit','dog','stupid'])
+>>> print(a)
+{'dog', 'stupid', 'quit'}   #set类型
+>>> print(list(a))
+['stupid', 'quit', 'dog']
+>>> set1 = set([])  或者set1 = set() #定义一个空集
+>>> a = set([]) #a = set()
+>>> c = [2,3,5,7,8]
+>>> b = [1,2,3,4,5]
+>>> a = set(c) | set(b)
+>>> print(a) 
+{1, 2, 3, 4, 5, 7, 8}
+
+列表也可以求和
+>>> a = [0,9,8,1]
+>>> print(sum(a))
+18
+
+numpy中定义零矩阵
+>>> from numpy import *
+>>> a = zeros([2,3])   #不是zeros(2,3) 这样会报错，而列表就相当于一个参数
+[[0. 0. 0.]
+ [0. 0. 0.]]
+>>> print((ones(3)))
+>>> print(ones((3,1)))
+>>> print(ones((1,3)))
+>>> print(ones([1,3]))
+[1. 1. 1.]
+[[1.]
+ [1.]
+ [1.]]
+[[1. 1. 1.]]
+[[1. 1. 1.]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
