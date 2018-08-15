@@ -1,0 +1,64 @@
+from numpy import *
+import matplotlib
+import matplotlib.pyplot as plt
+
+
+#数据录入与分析
+def loadDataSet(filename,delim='\t'):
+    fr = open(filename)
+    stringArr = [line.strip().split(delim) for line in fr.readlines()]
+    datArr = [list(map(float,line)) for line in stringArr]
+    return mat(datArr)
+
+def PCA(dataMat,topNfeat=99999999):
+    meanVals = mean(dataMat,axis=0)
+    meanRemoved = dataMat - meanVals #去平均值
+    covMat = cov(meanRemoved,rowvar=0) #计算协方差，cov(x,0)=cov(x)除数为n-1,cov(x,1)除数为n
+    eigVals,eigVects = linalg.eig(mat(covMat)) #获得协方差矩阵的特征值和特征向量
+    #print(eigVals)
+    #print(eigVects)
+    eigValInd = argsort(eigVals) #从小到大排序返回索引
+    #print(eigValInd)
+    eigValInd = eigValInd[:-(topNfeat+1):-1] #-1表示逆序,取前面N个索引
+    #print(eigValInd)
+    redEigVects = eigVects[:,eigValInd]  #保留最上面的N个特征向量
+    #print(redEigVects)
+    lowDDataMat = meanRemoved * redEigVects #原来的向量变成降维后的向量
+    #print(lowDDataMat)
+    reconMat = (lowDDataMat * redEigVects.T) + meanVals #降维后的数据再次映射到原来空间中，用于与原始数据进行比较
+    #print(reconMat)
+    return lowDDataMat,reconMat
+
+"""
+#测试
+dataMat = loadDataSet(r'E:\\奋斗历程\\python\\MLiA_SourceCode\\machinelearninginaction\\Ch13\\testSet.txt')
+lowDMat,reconMat = PCA(dataMat,1) # N = 1
+print(shape(reconMat))
+
+#将降维后的数据和原始数据一起绘制出来
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(dataMat[:,0].flatten().A[0],dataMat[:,1].flatten().A[0],marker='^',s=90)
+ax.scatter(reconMat[:,0].flatten().A[0],reconMat[:,1].flatten().A[0],marker='o',s=50,c='red')
+plt.show()
+"""
+
+#示例：使用PCA对半导体制造数据降维
+#将NaN（缺失值）替换成平均值函数
+def replaceNaNWithMean():
+    dataMat = loadDataSet(r'E:\\奋斗历程\\python\\MLiA_SourceCode\\machinelearninginaction\\Ch13\\secom.data',' ')
+    numFeat = shape(dataMat)[1]
+    for i in range(numFeat):
+        meanVal = mean(dataMat[nonzero(~isnan(dataMat[:,i].A))[0],i])
+        dataMat[nonzero(isnan(dataMat[:,i].A))[0],i] = meanVal
+    return dataMat
+
+"""
+#测试
+dataMat = replaceNaNWithMean()
+meanVals = mean(dataMat,axis=0)
+meanRemoved = dataMat - meanVals
+covMat = cov(meanRemoved,rowvar=0)
+eigVals,eigVects = linalg.eig(mat(covMat))
+print(eigVals)
+"""
