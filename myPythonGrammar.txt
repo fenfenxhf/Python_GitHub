@@ -1,0 +1,228 @@
+numpy.tile()函数：就是把数组沿着各个方向复制 #numpy是科学计算包
+>>> b = np.array([[1, 2], [3, 4]])
+>>> np.tile(b, 2) #沿X轴复制2倍
+array([[1, 2, 1, 2],
+       [3, 4, 3, 4]])
+>>> np.tile(b, (2, 1))#沿X轴复制1倍（相当于没有复制），再沿Y轴复制2倍
+array([[1, 2],
+       [3, 4],
+       [1, 2],
+       [3, 4]])
+       
+numpy.argsort()函数：
+>>> import numpy as np
+>>> x = np.array([1,4,3,-1,6,9])
+>>> x.argsort()
+array([3,0,2,1,4,5]) #将array从小到大排序，并返回索引的下标（下标从0开始），如-1是最小值，对应下标为3
+
+>>> numpy.tolist()函数：把矩阵或数组转化成列表，这样方便索引下标
+
+>>> linalg.det(X) #求矩阵X的行列式的值
+
+>>> numpy.corrcoef(X,Y) #计算两个序列的相关系数
+
+python之numpy.power()数组元素求n次方:
+>>> x1 = range(6)
+>>> x1
+[0, 1, 2, 3, 4, 5]
+>>> np.power(x1, 3)
+array([  0,   1,   8,  27,  64, 125])
+
+.sum(axis=1)  # .sum(axis=0)
+使用0值表示沿着每一列或行标签\索引值向下执行方法
+使用1值表示沿着每一行或者列标签横向执行对应的方法
+
+字典中.get()函数：
+基本语法：D[key] = D.get(key[,default=None])#D中若有key则返回key对应的值，若没有则返回默认值None，并添加此keyplot
+
+matplotlib中.add_subplot(111) #matplotlib制作图，111三个参数，第一个是子图总行数，第二个是子图总列数，第三个是子图位置
+matplotlib中.scatter（x,y,s=1,c="g",marker="o",linewidths=0）#s:散列点的大小,c:散列点的颜色，marker：形状，linewidths：边框宽度
+matplotlib中引入中文字体：
+>>> from pylab import *
+>>> mpl.rcParams['font.sans-serif'] = ['SimHei']
+
+from os import listdir  #listdir可以列出给定目录的文件名
+
+python2中：from math import log 
+python3中：from cmath import log
+
+复数的取实部、虚部、模
+>>> a = 4+3j
+>>> a.real
+4
+>>> a.imag
+3
+>>> a.abs  #取模
+5
+
+list.extend()  &   list.append()
+>>> a = [1,2,3]
+>>> b = [4,5,6]
+>>> a.append(b)
+>>> a
+[1,2,3,[4,5,6]]
+>>> a = [1,2,3]
+>>> a.extend(b)
+>>> a
+[1,2,3,4,5,6]
+
+
+>>> for i in range(3): #对于这里的i是从0开始的三个数
+>>>    print(i)
+0
+1
+2
+
+>>> a = [3,4]
+>>> print(a.index(3))  #返回下标，字典无索引
+0
+
+>>> import pickle #模块pickle序列化对象，可以在磁盘上保存对象，并且在需要时候读取
+>>> pickle.dump(Tree，fw #将Tree序列化至fw中,fw = open(filename,'wb')
+>>> pickle.load(fr) #读取文件，fr = open(filename,'rb')
+
+set()函数：
+>>> a = set(['quit','quit','dog','stupid'])
+>>> print(a)
+{'dog', 'stupid', 'quit'}   #set类型
+>>> print(list(a))
+['stupid', 'quit', 'dog']
+>>> set1 = set([])  或者set1 = set() #定义一个空集
+>>> a = set([]) #a = set()
+>>> c = [2,3,5,7,8]
+>>> b = [1,2,3,4,5]
+>>> a = set(c) | set(b)
+>>> print(a) 
+{1, 2, 3, 4, 5, 7, 8}
+
+列表也可以求和
+>>> a = [0,9,8,1]
+>>> print(sum(a))
+18
+
+numpy中定义零矩阵
+>>> from numpy import *
+>>> a = zeros([2,3])   #不是zeros(2,3) 这样会报错，而列表就相当于一个参数
+[[0. 0. 0.]
+ [0. 0. 0.]]
+>>> print((ones(3)))
+>>> print(ones((3,1)))
+>>> print(ones((1,3)))
+>>> print(ones([1,3]))
+[1. 1. 1.]
+[[1.]
+ [1.]
+ [1.]]
+[[1. 1. 1.]]
+[[1. 1. 1.]]
+
+Python 中的几种矩阵乘法 numpy.dot, numpy.multiply, *
+ numpy.dot:真正意义对应矩阵的乘法
+ *：真正意义对应矩阵的乘法
+ numpy.multiply ：对应元素相乘
+ 
+ Python 中的几种array乘法 numpy.dot, numpy.multiply, *
+ numpy.dot:真正意义对应矩阵的乘法
+ *：真正意义对应元素的乘法
+ numpy.multiply ：对应元素相乘
+
+ 
+>>> b1=numpy.array([True, False, True, False])
+>>> numpy.nonzero(b1) #返回不为0的元素的下标
+(array([0, 2], dtype=int64),)
+>>> b2 = np.array([[True, False, True], [True, False, False]])
+>>> np.nonzero(b2)
+(array([0, 0, 1], dtype=int64), array([0, 2, 0], dtype=int64))
+
+列表嵌套转化成一个列表：
+>>> a = [[1,3],[2,4],[3,5],["abc","def"]]  
+>>> a1 = [y for x in a for y in x]  
+>>> a1  
+[1, 3, 2, 4, 3, 5, 'abc', 'def']  
+
+numpy.flatten()用法：
+>>> a = [[1,3],[2,4],[3,5]]  
+>>> a = mat(a)  
+>>> y = a.flatten()  
+>>> y  
+matrix([[1, 3, 2, 4, 3, 5]]) 
+>>> y = a.flatten().A  
+>>> y  
+array([[1, 3, 2, 4, 3, 5]])  
+>>> shape(y)  
+(1, 6)  
+>>> shape(y[0])  
+(6,)  
+>>> y = a.flatten().A[0]  
+>>> y  
+array([1, 3, 2, 4, 3, 5])  
+
+>>> a = [[1,3],[2,4],[3,5]]  
+>>> a = array(a)  
+>>> a.flatten()  
+array([1, 3, 2, 4, 3, 5])  
+
+var():求方差；std():求标准差；cov():求协方差
+
+python2中map(float,a) #将a都映射成float格式
+python3z中list(map(float,a))
+>>> map(frozenset,a) #frozenset是指被冰冻的集合，不可改变。set也是不可改变，但是frozenset可以作为字典的键值使用，而set不行
+
+s.issubset( x ) 判断 集合s 是否是 集合x 子集
+s.issuperset( x ） 判断 集合x 是否是集合s的子集
+
+交集：
+>>> a=[1,3,5]
+>>> b=[1,2,3]
+>>> set(a) & set(b)
+set([1, 3])
+>>>
+# 或者
+>>> set(a).intersection(b)
+set([1, 3])
+>>>
+
+并集：
+>>> a=[1,3,5]
+>>> b=[1,2,3]
+>>> set(a) | set(b)
+set([1, 2, 3, 5])
+# 或者
+>>> set(a).union(b)
+set([1, 2, 3, 5])
+
+差集：
+>>> a=[1,3,5]
+>>> b=[1,2,3]
+>>> set(a) - set(b)
+set([5])
+# 或者
+>>> set(a).difference(b)
+set([5])
+>>>
+
+>>> a=[1,3,5]
+>>> b=[1,2,3]
+>>> set(a) ^ set(b)
+set([2, 5])
+# 或者
+>>> set(a).symmetric_difference(b)
+set([2, 5])
+>>>
+
+headerTable = {k: v for k, v in headerTable.items() if v >= minSup} #python3中字典的选择满足条件的
+#下面是python2中字典的选择满足条件的：
+for k in headerTable.keys(): #遍历每一个元素
+        if headerTable[k] < minSup:
+            del headerTable[k] #移除不满足最小支持度的元素项
+
+covMat = cov(meanRemoved,rowvar=0) #计算协方差，cov(x,0)=cov(x)除数为n-1,cov(x,1)除数为n
+eigVals,eigVects = linalg.eig(mat(covMat)) #获得协方差矩阵的特征值和特征向量
+
+eigValInd = eigValInd[:-(topNfeat+1):-1] #-1表示逆序,取前面topNfeat个索引
+
+python中yield和return对比：功能都是返回程序执行结果
+yield返回执行结果并不中断程序执行，return在返回执行结果的同时中断程序执行。
+
+random.uniform() 方法将随机生成下一个实数，它在 [x,y) 范围内
+
