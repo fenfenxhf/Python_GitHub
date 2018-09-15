@@ -119,7 +119,7 @@ def adaClassify(datToClass,classifierArr):
 """
 # 测试
 dataMat,classLabels = loadSimpleData()
-weakClassArr = adaBoostTrainDS(dataMat,classLabels,30)
+weakClassArr ,aggClassEst = adaBoostTrainDS(dataMat,classLabels,30)
 classifiedLabels = adaClassify([[0,0],[5,5]],weakClassArr)
 print(classifiedLabels)
 """
@@ -142,7 +142,7 @@ def loadDataSet(filename):
 """
 #测试
 dataArr,labelArr = loadDataSet(r'E:\\奋斗历程\\python\\MLiA_SourceCode\\machinelearninginaction\\Ch07\\horseColicTraining2.txt')
-classifierArray = adaBoostTrainDS(dataArr,labelArr,30)
+classifierArray,aggClassEst = adaBoostTrainDS(dataArr,labelArr,30)
 testArr,testLabelArr = loadDataSet(r'E:\\奋斗历程\\python\\MLiA_SourceCode\\machinelearninginaction\\Ch07\\horseColicTest2.txt')
 m = shape(testArr)[0]
 prediction = adaClassify(testArr,classifierArray)
