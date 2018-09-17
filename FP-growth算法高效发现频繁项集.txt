@@ -148,11 +148,11 @@ def mineTree(inTree,headerTable,minSup,preFix,freqItemList):
         newFreqSet = preFix.copy()
         newFreqSet.add(basePat)
         freqItemList.append(newFreqSet)
-        condPattBases = findPrefixPath(basePat,headerTable[basePat][1])
+        condPattBases = findPrefixPath(basePat,headerTable[basePat][1][0])
         myCondTree,myHead = createTree(condPattBases,minSup)
         if myHead != None:
             mineTree(myCondTree,myHead,minSup,newFreqSet,freqItemList)
-
+"""
 #测试
 simpDat = loadSimpDat()
 #print(simpDat)
@@ -161,7 +161,7 @@ initSet = createInitSet(simpDat)
 myFPtree,myHeaderTab = createTree(initSet,3)
 freqItems = []
 mineTree(myFPtree,myHeaderTab,3,set([]),freqItems)
-##
+"""
 
 
 
